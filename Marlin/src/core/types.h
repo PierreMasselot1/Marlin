@@ -549,6 +549,7 @@ struct XYZEval {
   #if HAS_K_AXIS
     FI void set(const T px, const T py, const T pz, const T pi, const T pj) { x = px; y = py; z = pz; i = pi; j = pj; }
   #endif
+  FI void resetExtruder()                                     { e = 0; }
   // Setters taking struct types and arrays
   FI void set(const XYval<T> pxy)                  { x = pxy.x; y = pxy.y; }
   FI void set(const XYZval<T> pxyz)                { set(LINEAR_AXIS_ELEM(pxyz)); }

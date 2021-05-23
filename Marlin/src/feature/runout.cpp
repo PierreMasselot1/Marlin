@@ -45,6 +45,10 @@ bool FilamentMonitorBase::enabled = true,
   #include "../core/debug_out.h"
 #endif
 
+#if ENABLED(MSU)
+  #include "../feature/msu/msu.h"
+#endif
+
 #if HAS_FILAMENT_RUNOUT_DISTANCE
   float RunoutResponseDelayed::runout_distance_mm = FILAMENT_RUNOUT_DISTANCE_MM;
   volatile float RunoutResponseDelayed::runout_mm_countdown[NUM_RUNOUT_SENSORS];
@@ -93,6 +97,10 @@ void event_filament_runout(const uint8_t extruder) {
   #if ANY(HOST_PROMPT_SUPPORT, HOST_ACTION_COMMANDS, MULTI_FILAMENT_SENSOR)
     const char tool = '0' + TERN0(MULTI_FILAMENT_SENSOR, extruder);
   #endif
+
+  /*#if ENABLED(MSU)
+    msu.filament_runout();
+  #endif*/
 
   //action:out_of_filament
   #if ENABLED(HOST_PROMPT_SUPPORT)
