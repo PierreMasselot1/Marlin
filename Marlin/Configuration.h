@@ -252,7 +252,7 @@
     #define MSU_EXTRUDER_STEPS_PER_MM 120 //steps per mm of the MSU, should not require any tuning. Necessary since we are using a single driver with motors that potentially have different steps per mm
   #endif
 
-  #define MSU_BOWDEN_TUBE_LENGTH 500 //length between MSU and extruder
+  #define MSU_BOWDEN_TUBE_LENGTH 200 //length between MSU and extruder
   #define MSU_GEAR_LENGTH 40 //for direct drive setups only, amount of retraction needed to disengage the filaments from the extruder gears
 #endif
 
