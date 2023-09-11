@@ -238,7 +238,7 @@
 
   #define MSU_MENU//LCD Menu
 
-  #define MSU_SERVO_IDLER_NBR 0 //define the servo motor number
+  #define MSU_SERVO_IDLER_NBR 1 //define the servo motor number
   #define MSU_SERVO_OFFSET 0 //defines the offset in degrees for the idler, this can be used to fine tune idler alignment
   #define MSU_BEARING_ANGLES 26 //defines the angle from on ball-bearing to the next on the idler
   #define MSU_SPEED 25 //unload and load speed of the MSU in mm/s, fine tuning can be done from the slicer
@@ -3014,18 +3014,18 @@
  * Set this manually if there are extra servos needing manual control.
  * Set to 0 to turn off servo support.
  */
-//#define NUM_SERVOS 3 // Note: Servo index starts with 0 for M280-M282 commands
+#define NUM_SERVOS 2 // Note: Servo index starts with 0 for M280-M282 commands
 
 // (ms) Delay before the next move will start, to give the servo time to reach its target angle.
 // 300ms is a good value but you can try less delay.
 // If the servo can't reach the requested position, increase it.
-#define SERVO_DELAY { 300 }
+#define SERVO_DELAY { 300, 300 }
 
 // Only power servos during movement, otherwise leave off to prevent jitter
 //#define DEACTIVATE_SERVOS_AFTER_MOVE
 
 // Edit servo angles with M281 and save to EEPROM with M500
-//#define EDITABLE_SERVO_ANGLES
+#define EDITABLE_SERVO_ANGLES
 
 // Disable servo with M282 to reduce power consumption, noise, and heat when not in use
 //#define SERVO_DETACH_GCODE
