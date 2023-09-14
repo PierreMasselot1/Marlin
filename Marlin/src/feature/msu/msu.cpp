@@ -17,7 +17,7 @@ xyze_pos_t position;
 
 float steps_per_mm_correction_factor = 1;
 #if ENABLED(MSU_DIRECT_DRIVE_LINKED_EXTRUDER_SETUP)
-  steps_per_mm_correction_factor = MSU_EXTRUDER_STEPS_PER_MM / static_cast<float>(planner.settings.axis_steps_per_mm[E_AXIS]);
+steps_per_mm_correction_factor = MSU_EXTRUDER_STEPS_PER_MM / static_cast<float>(planner.settings.axis_steps_per_mm[E_AXIS]);
 #endif
 void MSUMP::tool_change(uint8_t index)
 {
@@ -36,11 +36,11 @@ void MSUMP::tool_change(uint8_t index)
   selected_filament_nbr = index;
   move_extruder(MSU_BOWDEN_TUBE_LENGTH * steps_per_mm_correction_factor, MSU_SPEED, MSU_EXTRUDER_NBR);
 
-  #if ENABLED(MSU_DIRECT_DRIVE_SETUP)
-    move_extruder(4,MSU_SPEED,true);
-    idler_select_filament_nbr(-1);
-    move_extruder(MSU_GEAR_LENGTH,MSU_SPEED,true);
-  #endif
+#if ENABLED(MSU_DIRECT_DRIVE_SETUP)
+  move_both_extruders(4, MSU_SPEED);
+  idler_select_filament_nbr(-1);
+  move_extruder(MSU_GEAR_LENGTH - 4, MSU_SPEED, MSU_ORIGINAL_EXTRUDER_NBR);
+#endif
 
 #if ENABLED(MSU_DIRECT_DRIVE_LINKED_EXTRUDER_SETUP)
   idler_select_filament_nbr(-1);
@@ -50,11 +50,15 @@ void MSUMP::tool_change(uint8_t index)
 
 void MSUMP::move_both_extruders(float dist, const_feedRate_t speed)
 {
-  move_extruder(dist, speed, MSU_EXTRUDER_NBR, false);         // queue first extruder move
-  move_extruder(dist, speed, MSU_ORIGINAL_EXTRUDER_NBR, true); // second extruder move that waits for planner sync
+  // split the dist in 1mm chunchs and move one extruder at a time
+  for (int i = 0; i < dist; i++)
+  {
+    move_extruder(1, speed, MSU_EXTRUDER_NBR);
+    move_extruder(1, speed, MSU_ORIGINAL_EXTRUDER_NBR);
+  }
 }
 
-void MSUMP::move_extruder(float dist, const_feedRate_t speed, int extruder_nbr, bool sync)
+void MSUMP::move_extruder(float dist, const_feedRate_t speed, int extruder_nbr)
 {
   SERIAL_ECHO_MSG("MSU: move_extruder: ", dist, " ", speed, "extruder_nbr: ", extruder_nbr);
   const float old = current_position.e;
@@ -62,8 +66,7 @@ void MSUMP::move_extruder(float dist, const_feedRate_t speed, int extruder_nbr, 
   planner.buffer_line(current_position, speed, extruder_nbr);
   current_position.e = old;
   planner.set_e_position_mm(old);
-  if (sync)
-    planner.synchronize();
+  planner.synchronize();
 }
 
 // move idler to specific filament selection, -1 to park the idler

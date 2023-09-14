@@ -13,7 +13,7 @@ public:
     static void idler_home();
     static bool idler_is_homing();
     static void edit_MSU_BOWDEN_TUBE_SETUP_length(const float diff);
-    static void move_extruder(float diff,const_feedRate_t speed, int extruder_nbr, bool sync = true);
+    static void move_extruder(float diff,const_feedRate_t speed, int extruder_nbr);
     static void move_both_extruders(float diff,const_feedRate_t speed);
     static void idler_select_filament_nbr(int index);
     static void filament_runout();
