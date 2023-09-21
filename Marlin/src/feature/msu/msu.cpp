@@ -48,6 +48,7 @@ void MSUMP::tool_change(uint8_t index)
 #endif
 }
 
+#if ENABLED(MSU_DIRECT_DRIVE_SETUP)
 void MSUMP::move_both_extruders(float dist, const_feedRate_t speed)
 {
   // split the dist in 1mm chunks and move one extruder at a time
@@ -57,6 +58,7 @@ void MSUMP::move_both_extruders(float dist, const_feedRate_t speed)
     move_extruder(1, speed, MSU_ORIGINAL_EXTRUDER_NBR);
   }
 }
+#endif
 
 void MSUMP::move_extruder(float dist, const_feedRate_t speed, int extruder_nbr)
 {
