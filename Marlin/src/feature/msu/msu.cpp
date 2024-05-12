@@ -23,46 +23,46 @@ void MSUMP::tool_change(uint8_t index)
 {
 
 #if ENABLED(MSU_DIRECT_DRIVE_SETUP)
-  move_extruder(-MSU_GEAR_LENGTH, MSU_SPEED, MSU_ORIGINAL_EXTRUDER_NBR);
+  msu_move_extruder(-MSU_GEAR_LENGTH, MSU_SPEED, MSU_ORIGINAL_EXTRUDER_NBR);
 #endif
 
 #if ENABLED(MSU_DIRECT_DRIVE_LINKED_EXTRUDER_SETUP)
-  move_extruder(-MSU_GEAR_LENGTH, MSU_SPEED, MSU_EXTRUDER_NBR);
+  msu_move_extruder(-MSU_GEAR_LENGTH, MSU_SPEED, MSU_EXTRUDER_NBR);
 #endif
 
   idler_select_filament_nbr(selected_filament_nbr);
-  move_extruder(-MSU_BOWDEN_TUBE_LENGTH * steps_per_mm_correction_factor, MSU_SPEED, MSU_EXTRUDER_NBR);
+  msu_move_extruder(-MSU_BOWDEN_TUBE_LENGTH * steps_per_mm_correction_factor, MSU_SPEED, MSU_EXTRUDER_NBR);
   idler_select_filament_nbr(index);
   selected_filament_nbr = index;
-  move_extruder(MSU_BOWDEN_TUBE_LENGTH * steps_per_mm_correction_factor, MSU_SPEED, MSU_EXTRUDER_NBR);
+  msu_move_extruder(MSU_BOWDEN_TUBE_LENGTH * steps_per_mm_correction_factor, MSU_SPEED, MSU_EXTRUDER_NBR);
 
 #if ENABLED(MSU_DIRECT_DRIVE_SETUP)
-  move_both_extruders(4, MSU_SPEED);
+  msu_move_both_extruders(4, MSU_SPEED);
   idler_select_filament_nbr(-1);
-  move_extruder(MSU_GEAR_LENGTH - 4, MSU_SPEED, MSU_ORIGINAL_EXTRUDER_NBR);
+  msu_move_extruder(MSU_GEAR_LENGTH - 4, MSU_SPEED, MSU_ORIGINAL_EXTRUDER_NBR);
 #endif
 
 #if ENABLED(MSU_DIRECT_DRIVE_LINKED_EXTRUDER_SETUP)
   idler_select_filament_nbr(-1);
-  move_extruder(MSU_GEAR_LENGTH, MSU_SPEED, MSU_EXTRUDER_NBR);
+  msu_move_extruder(MSU_GEAR_LENGTH, MSU_SPEED, MSU_EXTRUDER_NBR);
 #endif
 }
 
 #if ENABLED(MSU_DIRECT_DRIVE_SETUP)
-void MSUMP::move_both_extruders(float dist, const_feedRate_t speed)
+void MSUMP::msu_move_both_extruders(float dist, const_feedRate_t speed)
 {
   // split the dist in 1mm chunks and move one extruder at a time
   for (int i = 0; i < dist; i++)
   {
-    move_extruder(1, speed, MSU_EXTRUDER_NBR);
-    move_extruder(1, speed, MSU_ORIGINAL_EXTRUDER_NBR);
+    msu_move_extruder(1, speed, MSU_EXTRUDER_NBR);
+    msu_move_extruder(1, speed, MSU_ORIGINAL_EXTRUDER_NBR);
   }
 }
 #endif
 
-void MSUMP::move_extruder(float dist, const_feedRate_t speed, int extruder_nbr)
+void MSUMP::msu_move_extruder(float dist, const_feedRate_t speed, int extruder_nbr)
 {
-  SERIAL_ECHO_MSG("MSU: move_extruder: ", dist, " ", speed, "extruder_nbr: ", extruder_nbr);
+  //SERIAL_ECHO_MSG("MSU: msu_move_extruder: ", dist, " ", speed, "extruder_nbr: ", extruder_nbr);
   const float old = current_position.e;
   current_position.e += dist;
   planner.buffer_line(current_position, speed, extruder_nbr);
