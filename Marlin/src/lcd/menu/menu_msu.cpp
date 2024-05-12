@@ -40,6 +40,7 @@ void menu_msu_change_filament() {
 void menu_msu_set_idler_position() {
   START_MENU();
   BACK_ITEM(MSG_MSU_MENU);
+  ACTION_ITEM(MSG_MSU_IDLER_PARK_IDLER, []{ msu.idler_select_filament_nbr(-1); });
   LOOP_L_N(i, 5) ACTION_ITEM_N(i, MSG_MSU_IDLER_POSITION_N, []{ msu.idler_select_filament_nbr(MenuItemBase::itemIndex); });
   END_MENU();
 }
