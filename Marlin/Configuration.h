@@ -298,9 +298,9 @@
 /**
  * Material Switching Unit(MSU)
  * Device based on the MMU2 from Prusa but that runs directly off the board (making it significantly cheaper)
- * 
+ *
  * If you are using a stepper controlled idler don't forget to set DISABLE_INACTIVE_E to false in Config_adv.h
- * 
+ *
  */
 #define MSU
 #if ENABLED(MSU)
@@ -312,14 +312,14 @@
   #define MSU_MENU//LCD Menu
 
   #define MSU_SERVO_IDLER_NBR 0 //define the servo motor number
-  #define MSU_SERVO_OFFSET 3 //defines the offset in degrees for the idler, this can be used to fine tune idler alignment
-  #define MSU_BEARING_ANGLES 26 //defines the angle from on ball-bearing to the next on the idler
+  #define MSU_SERVO_OFFSET 10 //defines the offset in degrees for the idler, this can be used to fine tune idler alignment
+  #define MSU_BEARING_ANGLES 35 //defines the angle from on ball-bearing to the next on the idler
   #define MSU_SPEED 25 //unload and load speed of the MSU in mm/s, fine tuning can be done from the slicer
   #define MSU_EXTRUDER_NBR 0 //define the MSU extruder motor number (as setup in your board pins file)
   #define MSU_PARKING_POSITION 270 //define angle of the servo for the parking position
 
   #if ENABLED(MSU_DIRECT_DRIVE_SETUP)
-    #define MSU_ORIGINAL_EXTRUDER_NBR 2//define the extruder nbr that the actual extruder is connected to 
+    #define MSU_ORIGINAL_EXTRUDER_NBR 2//define the extruder nbr that the actual extruder is connected to
   #endif
 
   #if ENABLED(MSU_DIRECT_DRIVE_LINKED_EXTRUDER_SETUP)
